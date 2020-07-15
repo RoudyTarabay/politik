@@ -4,19 +4,38 @@ import "./App.css";
 import useAxiosApi from "./hooks/useAxiosApi";
 import Table from "./components/table";
 import Container from "@material-ui/core/Container";
+import { spacing } from "@material-ui/system";
 
 function App() {
   const [councillors] = useAxiosApi({
     url: "http://ws-old.parlament.ch/councillors/basicdetails/session",
   });
-  const [councillorTableData, setCouncillorTableData] = useState([]);
+  const [councils] = useAxiosApi({
+    url: "http://ws-old.parlament.ch/councils",
+  });
+  const [affairs] = useAxiosApi({
+    url: "http://ws-old.parlament.ch/affairs",
+  });
+  const [councillorTableData, setCouncillorTableData] = useState(
+    councillors || []
+  );
+  const [councilsTableData, setCouncilsTableData] = useState(councils || []);
+  const [affairsTableData, setAffairsTableData] = useState(affairs || []);
+
   useEffect(() => {
     setCouncillorTableData(councillors);
-    console.log("settingcouncillortable");
   }, [councillors]);
+
+  useEffect(() => {
+    setCouncilsTableData(councils);
+  }, [councils]);
+
+  useEffect(() => {
+    setAffairsTableData(affairs);
+  }, [affairs]);
   return (
     <div className="App">
-      <Container>
+      <Container pt={4}>
         <Table
           data={councillorTableData}
           title={"Councillors"}
@@ -101,7 +120,47 @@ function App() {
               title: "Updated",
               sorting: false,
               searchable: false,
+              type: "date",
             },
+          ]}
+        ></Table>
+      </Container>
+      <Container style={{ marginTop: "50px" }}>
+        <Table
+          data={councilsTableData}
+          title={"Councils"}
+          columns={[
+            { field: "id", title: "ID", sorting: false, searching: false },
+            {
+              field: "abbreviation",
+              title: "Abbreviation",
+              sorting: false,
+              searchable: false,
+            },
+            { field: "code", title: "Code", sorting: false, searching: false },
+            { field: "name", title: "Name" },
+            {
+              field: "type",
+              title: "Type",
+              sorting: false,
+              searching: false,
+            },
+          ]}
+        ></Table>
+      </Container>
+      <Container style={{ marginTop: "50px" }}>
+        <Table
+          data={affairsTableData}
+          title={"Affairs"}
+          columns={[
+            { field: "id", title: "ID", sorting: false, searching: false },
+            {
+              field: "shortId",
+              title: "Short ID",
+              sorting: false,
+              searchable: false,
+            },
+            { field: "updated", title: "Updated", type: "date" },
           ]}
         ></Table>
       </Container>

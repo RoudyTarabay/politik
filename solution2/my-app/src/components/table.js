@@ -12,7 +12,6 @@ export default function CustomMaterialTable(props) {
   useEffect(() => {
     setState({ ...state, data: props.data });
   }, [props.data]);
-  console.log("state", state);
   return (
     <MaterialTable
       title={props.title}
