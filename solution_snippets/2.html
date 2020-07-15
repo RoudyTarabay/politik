@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var startTime = new Date();
+			document.addEventListener('mousemove', function () {
+				startTime = new Date();
+				var bool = true;
+				setInterval(function () {
+					var endTime = new Date();
+					if ((endTime - startTime) / 1000 > 3) { //only run it if user is hovering more than three second
+						if (bool == true) {
+							bool = false;//make sure it is run only once for this event
+							for (let i = 0; i < 9999; i++) {
+							console.log(i);
+							}
+						}
+					}
+				}, 500);
+			// simulation of non critical taxing task
+			});
+		</script>
+	</body>
+
+</html>
